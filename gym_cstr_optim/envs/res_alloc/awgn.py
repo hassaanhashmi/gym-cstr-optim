@@ -36,7 +36,7 @@ class AWGN(gym.Env):
     def g_o(self, vec_metric_x):
         return np.dot(self.priority_weights.T, vec_metric_x)[0]
     
-    def g_(self, vec_actions):
+    def f_i(self, vec_actions):
         return self.pow_max - np.sum(vec_actions)
 
     def vec_f(self, vec_actions, vec_H):
