@@ -1,2 +1,1 @@
-# gym-cstr-optim
-A toolkit for comparing reinforcement learning algorithms for constrained optimization.
+### OpenAI Gym based toolkit for developing and comparing reinforcement learning algorithms for constrained optimization.
