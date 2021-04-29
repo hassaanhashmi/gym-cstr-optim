@@ -7,4 +7,5 @@ After cloning, run
 
 |Env name        | Location  |
 |:-:|:-:|
-|gym_cstr_optim:awgn-v0| `envs/res_alloc/awgn`| 
+|gym_cstr_optim:awgn-v0| `envs/res_alloc/awgn.py`| 
+|gym_cstr_optim:mai-v0| `envs/res_alloc/mai.py`| 
