@@ -21,7 +21,6 @@ class AWGN(gym.Env):
         self.pow_max = pow_max
         self.channel_mu = channel_mu
         self.noise_var = noise_var
-        self.vec_f_out = np.zeros(shape=(self.num_users,1))
         if np.any(priority_weights == None):
             self. priority_weights = np.ones(shape=(num_users,1))/num_users
         else:
@@ -40,9 +39,7 @@ class AWGN(gym.Env):
         return self.pow_max - np.sum(vec_actions)
 
     def vec_f(self, vec_actions, vec_H):
-        for i in range(self.num_users):
-            self.vec_f_out[i] = np.log(1+ (vec_H[i]*vec_actions[i])/(self.noise_var))
-        return self.vec_f_out
+        return np.log(1+ vec_H*vec_actions/self.noise_var)
 
     #gym functions
     def step(self, vec_actions, vec_metrics_x, vec_H):
