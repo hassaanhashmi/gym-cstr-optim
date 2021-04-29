@@ -41,7 +41,7 @@ class AWGN(gym.Env):
 
     def vec_f(self, vec_actions, vec_H):
         for i in range(self.num_users):
-            self.vec_f_out[i] = np.log(1+ (vec_H[i]*vec_actions[i])/(self.noise_var + np.dot(np.delete(vec_H, i, axis=0).T, np.delete(vec_actions, i, axis=0))))
+            self.vec_f_out[i] = np.log(1+ (vec_H[i]*vec_actions[i])/(self.noise_var))
         return self.vec_f_out
 
     #gym functions
