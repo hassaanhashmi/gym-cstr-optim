@@ -25,7 +25,7 @@ class AWGN(gym.Env):
             self. priority_weights = np.ones(shape=(num_users,1))/num_users
         else:
             assert priority_weights.shape[0] == self.num_users, "no. of priority weights != no. of users"
-            assert np.sum(priority_weights) == 1, "sum of priority weights != 1"
+            assert np.sum(priority_weights) >= 0.98 and np.sum(priority_weights) <= 1, "sum of priority weights != 1"
             self. priority_weights = priority_weights
         
     def sample_fading_channels(self):
@@ -43,9 +43,6 @@ class AWGN(gym.Env):
 
     #gym functions
     def step(self, vec_actions, vec_metrics_x, vec_H):
-        vec_metrics_x = np.maximum(0,vec_metrics_x) #projection
-        vec_actions = np.minimum(self.pow_max, vec_actions) #projection
-        vec_actions = np.maximum(0, vec_actions)
         go_x = self.g_o(vec_metrics_x)
         f_i = self.f_i(vec_actions)
         f_h = self.vec_f(vec_actions, vec_H)
