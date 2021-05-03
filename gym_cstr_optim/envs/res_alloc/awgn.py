@@ -22,11 +22,11 @@ class AWGN(gym.Env):
         self.channel_mu = channel_mu
         self.noise_var = noise_var
         if np.any(priority_weights == None):
-            self. priority_weights = np.ones(shape=(num_users,1))/num_users
+            self.priority_weights = np.ones(shape=(num_users,1))/num_users
         else:
             assert priority_weights.shape[0] == self.num_users, "no. of priority weights != no. of users"
             assert np.sum(priority_weights) >= 0.98 and np.sum(priority_weights) <= 1, "sum of priority weights != 1"
-            self. priority_weights = priority_weights
+            self.priority_weights = priority_weights
         
     def sample_fading_channels(self):
         vec_H = np.random.exponential(self.channel_mu, size=(self.num_users,1))
@@ -39,7 +39,7 @@ class AWGN(gym.Env):
         return self.pow_max - np.sum(vec_actions)
 
     def vec_f(self, vec_actions, vec_H):
-        return np.log(1+ vec_H*vec_actions/self.noise_var)
+        return np.log(1+ (vec_H*vec_actions)/self.noise_var)
 
     #gym functions
     def step(self, vec_actions, vec_metrics_x, vec_H):
