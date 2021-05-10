@@ -20,31 +20,30 @@ class MAI(gym.Env):
         self.num_users = num_users
         self.pow_max = pow_max
         self.channel_mu = channel_mu
-        self.noise_var = np.array([noise_var]).astype(np.longdouble)
+        self.noise_var = noise_var
         self.vec_f_out = np.zeros(shape=(self.num_users,1))
         if np.any(priority_weights == None):
             self.priority_weights = np.ones(shape=(num_users,1))/num_users
         else:
             assert priority_weights.shape[0] == self.num_users, "no. of priority weights != no. of users"
             assert np.sum(priority_weights) >= 0.98 and np.sum(priority_weights) <= 1, "sum of priority weights != 1"
-            self.priority_weights = priority_weights.astype(np.longdouble)
+            self.priority_weights = priority_weights
         
     def sample_fading_channels(self):
-        vec_H = np.random.exponential(self.channel_mu, size=(self.num_users,1)).astype(np.longdouble)
+        vec_H = np.random.exponential(self.channel_mu, size=(self.num_users,1))
         return vec_H
 
     def g_o(self, vec_metric_x):
         return np.dot(self.priority_weights.T, vec_metric_x)[0]
     
     def f_i(self, vec_actions):
-        vec_actions.astype(np.longdouble)
-        return np.array([self.pow_max],dtype=np.longdouble)[0] - np.sum(vec_actions)
+        return self.pow_max - np.sum(vec_actions)
 
     def vec_f(self, vec_actions, vec_H):
         vec_actions.astype(np.longdouble)
         vec_H.astype(np.longdouble)
         for i in range(self.num_users):
-            self.vec_f_out[i] = np.log(1+ (vec_H[i]*vec_actions[i])/(self.noise_var[0] + np.dot(np.delete(vec_H, i, axis=0).T, np.delete(vec_actions, i, axis=0))))
+            self.vec_f_out[i] = np.log(1+ (vec_H[i]*vec_actions[i])/(self.noise_var + np.dot(np.delete(vec_H, i, axis=0).T, np.delete(vec_actions, i, axis=0))))
         return self.vec_f_out
 
     #gym functions
