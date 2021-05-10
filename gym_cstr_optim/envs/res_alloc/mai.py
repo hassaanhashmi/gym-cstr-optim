@@ -18,9 +18,9 @@ class MAI(gym.Env):
                  ):
         super(MAI, self).__init__()
         self.num_users = num_users
-        self.pow_max = pow_max
+        self.pow_max = pow_max.astype(np.longdouble)
         self.channel_mu = channel_mu
-        self.noise_var = noise_var
+        self.noise_var = np.array([noise_var]).astype(np.longdouble)
         self.vec_f_out = np.zeros(shape=(self.num_users,1))
         if np.any(priority_weights == None):
             self. priority_weights = np.ones(shape=(num_users,1))/num_users
@@ -30,7 +30,7 @@ class MAI(gym.Env):
             self. priority_weights = priority_weights
         
     def sample_fading_channels(self):
-        vec_H = np.random.exponential(self.channel_mu, size=(self.num_users,1))
+        vec_H = np.random.exponential(self.channel_mu, size=(self.num_users,1)).astype(np.longdouble)
         return vec_H
 
     def g_o(self, vec_metric_x):
@@ -40,8 +40,9 @@ class MAI(gym.Env):
         return self.pow_max - np.sum(vec_actions)
 
     def vec_f(self, vec_actions, vec_H):
+        vec_actions.astype(np.longdouble)
         for i in range(self.num_users):
-            self.vec_f_out[i] = np.log(1+ (vec_H[i]*vec_actions[i])/(self.noise_var + np.dot(np.delete(vec_H, i, axis=0).T, np.delete(vec_actions, i, axis=0))))
+            self.vec_f_out[i] = np.log(1+ (vec_H[i]*vec_actions[i])/(self.noise_var[0] + np.dot(np.delete(vec_H, i, axis=0).T, np.delete(vec_actions, i, axis=0))))
         return self.vec_f_out
 
     #gym functions
