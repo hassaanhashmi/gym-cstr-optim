@@ -40,8 +40,6 @@ class MAI(gym.Env):
         return self.pow_max - np.sum(vec_actions)
 
     def vec_f(self, vec_actions, vec_H):
-        vec_actions.astype(np.longdouble)
-        vec_H.astype(np.longdouble)
         for i in range(self.num_users):
             self.vec_f_out[i] = np.log(1+ (vec_H[i]*vec_actions[i])/(self.noise_var + np.dot(np.delete(vec_H, i, axis=0).T, np.delete(vec_actions, i, axis=0))))
         return self.vec_f_out
