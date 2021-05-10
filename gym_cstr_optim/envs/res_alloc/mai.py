@@ -40,9 +40,10 @@ class MAI(gym.Env):
         return self.pow_max - np.sum(vec_actions)
 
     def vec_f(self, vec_actions, vec_H):
+        vec_f = np.zeros_like(vec_H)
         for i in range(self.num_users):
-            self.vec_f_out[i] = np.log(1+ (vec_H[i]*vec_actions[i])/(self.noise_var + np.dot(np.delete(vec_H, i, axis=0).T, np.delete(vec_actions, i, axis=0))))
-        return self.vec_f_out
+            vec_f_out[i] = np.log(1+ (vec_H[i]*vec_actions[i])/(self.noise_var + np.dot(np.delete(vec_H, i, axis=0).T, np.delete(vec_actions, i, axis=0))))
+        return vec_f_out
 
     #gym functions
     def step(self, vec_actions, vec_metrics_x, vec_H):
