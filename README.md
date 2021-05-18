@@ -9,3 +9,5 @@ After cloning, run
 |:-:|:-:|
 |gym_cstr_optim:awgn-v0| `envs/res_alloc/awgn.py`| 
 |gym_cstr_optim:mai-v0| `envs/res_alloc/mai.py`| 
+
+More coming soon ...
